@@ -28,7 +28,7 @@ jobs:
 
       - name: Build AppImage
         run: |
-          docker run --rm -v "$PWD:/electrum" electrum-appimage-builder bash -c "cd /electrum && chmod +x contrib/*.sh contrib/build-linux/appimage/*.sh && cd contrib/build-linux/appimage && bash build.sh"
+          docker run --rm --user $(id -u):$(id -g) -v "$PWD:/electrum" electrum-appimage-builder bash -c "cd /electrum && chmod +x contrib/*.sh contrib/build-linux/appimage/*.sh && cd contrib/build-linux/appimage && bash build.sh"
 
       - name: Rename AppImage
         run: |
@@ -62,7 +62,7 @@ jobs:
 
       - name: Build Windows executables
         run: |
-          docker run --rm -v "$PWD:/opt/wine64/drive_c/electrum" -w /opt/wine64/drive_c/electrum/contrib/build-wine electrum-wine-builder bash -c "chmod +x *.sh ../make_libsecp256k1.sh ../build_tools_util.sh && ./build.sh"
+          docker run --rm -v "$PWD:/opt/wine64/drive_c/electrum" -w /opt/wine64/drive_c/electrum/contrib/build-wine electrum-wine-builder bash -c "git config --global --add safe.directory /opt/wine64/drive_c/electrum && chmod +x *.sh ../make_libsecp256k1.sh ../build_tools_util.sh && ./build.sh"
 
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4

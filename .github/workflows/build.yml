@@ -104,6 +104,8 @@ jobs:
       - name: Build libsecp256k1
         run: |
           contrib/make_libsecp256k1.sh
+          # Copy to contrib/osx for PyInstaller
+          cp electrum/libsecp256k1.0.dylib contrib/osx/ || cp electrum/libsecp256k1.so.0 contrib/osx/libsecp256k1.0.dylib || true
 
       - name: Download libusb
         run: |
@@ -113,8 +115,9 @@ jobs:
           ./configure --prefix=/tmp/libusb-install
           make -j4
           make install
-          cp /tmp/libusb-install/lib/libusb-1.0.dylib contrib/osx/ || true
-          cp /tmp/libusb-install/lib/libusb-1.0.0.dylib contrib/osx/ || true
+          cp /tmp/libusb-install/lib/libusb-1.0.dylib $GITHUB_WORKSPACE/contrib/osx/ || true
+          cp /tmp/libusb-install/lib/libusb-1.0.0.dylib $GITHUB_WORKSPACE/contrib/osx/libusb-1.0.dylib || true
+          ls -la $GITHUB_WORKSPACE/contrib/osx/
 
       - name: Generate locale
         run: |

@@ -134,6 +134,12 @@ jobs:
           python3 -m pip install --no-dependencies -r contrib/deterministic-build/requirements-hw.txt || true
           python3 -m pip install --no-dependencies . || true
 
+      - name: Build CalinsQRReader
+        run: |
+          cd contrib/osx/CalinsQRReader
+          xcodebuild -project CalinsQRReader.xcodeproj -target CalinsQRReader -configuration Release build || echo "CalinsQRReader build failed - QR scanning may not work"
+          ls -la build/Release/ || true
+
       - name: Build macOS app
         run: |
           VERSION=$(git describe --tags --dirty --always)

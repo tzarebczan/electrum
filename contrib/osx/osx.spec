@@ -47,12 +47,14 @@ def monkey_patch_pyinstaller_for_codesigning(identity):
     PyInstaller.depend.dylib.mac_set_relative_dylib_deps = my_func
 
 
-for i, x in enumerate(sys.argv):
-    if x == '--name':
-        VERSION = sys.argv[i+1]
-        break
-else:
-    raise Exception('no version')
+VERSION = os.environ.get('ELECTRUM_VERSION', None)
+if not VERSION:
+    for i, x in enumerate(sys.argv):
+        if x == '--name':
+            VERSION = sys.argv[i+1]
+            break
+    else:
+        raise Exception('no version - set ELECTRUM_VERSION env var or pass --name')
 
 electrum = os.path.abspath(".") + "/"
 block_cipher = None

@@ -134,6 +134,7 @@ jobs:
       - name: Build macOS app
         run: |
           VERSION=$(git describe --tags --dirty --always)
+          export ELECTRUM_VERSION="$VERSION"
           pyinstaller --noconfirm --ascii --clean contrib/osx/osx.spec || echo "PyInstaller build failed - macOS build may need manual adjustment"
           # Rename the output to include version
           if [ -d "dist/Electrum.app" ]; then

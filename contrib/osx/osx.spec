@@ -71,7 +71,10 @@ hiddenimports += ['PyQt5.QtPrintSupport']  # needed by Revealer
 
 # safetlib imports PyQt5.Qt.  We use a local updated copy of pinmatrix.py until they
 # release a new version that includes https://github.com/archos-safe-t/python-safet/commit/b1eab3dba4c04fdfc1fcf17b66662c28c5f2380e
-hiddenimports.remove('safetlib.qt.pinmatrix')
+try:
+    hiddenimports.remove('safetlib.qt.pinmatrix')
+except ValueError:
+    pass  # Not in list, skip
 
 
 datas = [
